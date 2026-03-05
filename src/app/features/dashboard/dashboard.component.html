@@ -1,0 +1,21 @@
+<input #taskInput />
+
+<button (click)="addTask(taskInput.value)">Add task</button>
+
+<ul>
+  @for (task of tasks(); track task.id) {
+    <li>
+      @if (!task.completed) {
+        <span>{{ task.title }}</span>
+
+        <button (click)="completeTask(task.id)">Done</button>
+      } @else {
+        <s>{{ task.title }}</s>
+      }
+    </li>
+  }
+</ul>
+
+<p>Progress: {{ progress() }}%</p>
+
+<progress [value]="progress()" max="100"></progress>
