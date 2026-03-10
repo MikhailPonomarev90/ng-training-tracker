@@ -1,17 +1,17 @@
 <input #taskInput />
 
-<button (click)="addTask(taskInput.value)">Add task</button>
+<button (click)="addTask(taskInput)">Add task</button>
 
 <ul>
   @for (task of tasks(); track task.id) {
     <li>
       @if (!task.completed) {
         <span>{{ task.title }}</span>
-
-        <button (click)="completeTask(task.id)">Done</button>
       } @else {
         <s>{{ task.title }}</s>
       }
+      <button (click)="toggleTask(task.id)">{{ !task.completed ? 'Done' : 'Undone' }}</button>
+      <button (click)="removeTask(task.id)">Remove</button>
     </li>
   }
 </ul>

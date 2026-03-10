@@ -1,10 +1,6 @@
-import { Component, computed, signal } from '@angular/core';
-
-interface Task {
-  id: number;
-  title: string;
-  completed: boolean;
-}
+import { Component, computed, inject, signal } from '@angular/core';
+import { Task } from '../../core/models/task.model';
+import { TaskService } from '../../core/services/task.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,30 +8,27 @@ interface Task {
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent {
-  tasks = signal<Task[]>([]);
-
-  completedCount = computed(() => this.tasks().filter((t) => t.completed).length);
+  private taskService = inject(TaskService);
+  tasks = this.taskService.getTasks();
 
   progress = computed(() => {
     const total = this.tasks().length;
     if (!total) return 0;
-    return Math.round((this.completedCount() / total) * 100);
+    return Math.round((this.taskService.completedCount() / total) * 100);
   });
 
-  addTask(title: string) {
-    if (!title.trim()) return;
+  addTask(input: HTMLInputElement) {
+    if (!input.value.trim()) return;
 
-    const newTask = {
-      id: Date.now(),
-      title,
-      completed: false,
-    };
-
-    this.tasks.update((tasks) => [...tasks, newTask]);
+    this.taskService.addTask(input.value);
+    input.value = '';
   }
-  completeTask(id: number) {
-    this.tasks.update((tasks) =>
-      tasks.map((task) => (task.id === id ? { ...task, completed: true } : task)),
-    );
+
+  toggleTask(id: number) {
+    this.taskService.toggleTask(id);
+  }
+
+  removeTask(id: number) {
+    this.taskService.removeTask(id);
   }
 }
