@@ -1,17 +1,11 @@
-<input #taskInput />
+<input [(ngModel)]="taskName" #taskInput />
 
-<button (click)="addTask(taskInput)">Add task</button>
+<button (click)="addTask()">Add task</button>
 
 <ul>
   @for (task of tasks(); track task.id) {
     <li>
-      @if (!task.completed) {
-        <span>{{ task.title }}</span>
-      } @else {
-        <s>{{ task.title }}</s>
-      }
-      <button (click)="toggleTask(task.id)">{{ !task.completed ? 'Done' : 'Undone' }}</button>
-      <button (click)="removeTask(task.id)">Remove</button>
+      <app-task-item [task]="task" />
     </li>
   }
 </ul>
@@ -19,3 +13,5 @@
 <p>Progress: {{ progress() }}%</p>
 
 <progress [value]="progress()" max="100"></progress>
+
+<app-task-filter [(allTasks)]="tasks" />

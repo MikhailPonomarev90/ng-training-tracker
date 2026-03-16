@@ -1,15 +1,30 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { Task } from '../../core/models/task.model';
+import {
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  input,
+  signal,
+  viewChild,
+  viewChildren,
+} from '@angular/core';
 import { TaskService } from '../../core/services/task.service';
+import { FormsModule } from '@angular/forms';
+import { TaskItemComponent } from '../tasks/task-item.component/task-item.component';
+import { TaskFilterComponent } from '../tasks/task-filter.component/task-filter.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   templateUrl: './dashboard.component.html',
+  imports: [FormsModule, TaskItemComponent, TaskFilterComponent],
 })
 export class DashboardComponent {
   private taskService = inject(TaskService);
   tasks = this.taskService.getTasks();
+  taskName = signal('');
+  allCards = viewChildren(TaskItemComponent);
+  taskInput = viewChild<ElementRef<HTMLInputElement>>('taskInput');
 
   progress = computed(() => {
     const total = this.tasks().length;
@@ -17,18 +32,11 @@ export class DashboardComponent {
     return Math.round((this.taskService.completedCount() / total) * 100);
   });
 
-  addTask(input: HTMLInputElement) {
-    if (!input.value.trim()) return;
+  addTask() {
+    if (!this.taskName().trim()) return;
 
-    this.taskService.addTask(input.value);
-    input.value = '';
-  }
-
-  toggleTask(id: number) {
-    this.taskService.toggleTask(id);
-  }
-
-  removeTask(id: number) {
-    this.taskService.removeTask(id);
+    this.taskService.addTask(this.taskName());
+    this.taskName.set('');
+    this.taskInput()?.nativeElement.focus();
   }
 }
