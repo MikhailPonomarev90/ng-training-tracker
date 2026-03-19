@@ -1,5 +1,5 @@
 <div>
-  <select [ngModel]="filter()" (ngModelChange)="filter.set($event)">
+  <select [value]="filter()" (change)="onFilterChange($event)">
     @for (type of filterOptions; track type) {
       <option [value]="type">{{ type | titlecase }}</option>
     }

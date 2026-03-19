@@ -1,6 +1,6 @@
 import { Component, inject, input } from '@angular/core';
-import { Task } from '../../../core/models/task.model';
-import { TaskService } from '../../../core/services/task.service';
+import { Task } from '../../models/task.model';
+import { TaskStore } from '../../store/task-store';
 
 @Component({
   selector: 'app-task-item',
@@ -10,7 +10,7 @@ import { TaskService } from '../../../core/services/task.service';
   standalone: true,
 })
 export class TaskItemComponent {
-  private taskService = inject(TaskService);
+  private taskStore = inject(TaskStore);
   task = input.required<Task>();
 
   logTask() {
@@ -18,10 +18,10 @@ export class TaskItemComponent {
   }
 
   toggleTask(id: number) {
-    this.taskService.toggleTask(id);
+    this.taskStore.toggleTask(id);
   }
 
   removeTask(id: number) {
-    this.taskService.removeTask(id);
+    this.taskStore.removeTask(id);
   }
 }

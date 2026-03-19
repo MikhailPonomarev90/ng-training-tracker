@@ -1,0 +1,26 @@
+<input [(ngModel)]="taskName" #taskInput />
+
+<button (click)="addTask()">Add task</button>
+
+<app-task-filter
+  [filter]="taskStore.currentFilter()"
+  (filterChange)="taskStore.setFilter($event)"
+/>
+
+<ul>
+  @for (task of taskStore.filteredTasks(); track task.id) {
+    <li>
+      <app-task-item [task]="task" />
+    </li>
+  }
+</ul>
+
+<button (click)="showStats()">Показать статистику</button>
+
+<ng-container #container></ng-container>
+
+<p>Progress: {{ taskStore.progress() }}%</p>
+
+<p>tasksRemaining: {{ taskStore.tasksRemaining() }}</p>
+
+<progress [value]="taskStore.progress()" max="100"></progress>
