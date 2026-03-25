@@ -1,17 +1,1 @@
-<input [(ngModel)]="taskName" #taskInput />
-
-<button (click)="addTask()">Add task</button>
-
-<ul>
-  @for (task of tasks(); track task.id) {
-    <li>
-      <app-task-item [task]="task" />
-    </li>
-  }
-</ul>
-
-<p>Progress: {{ progress() }}%</p>
-
-<progress [value]="progress()" max="100"></progress>
-
-<app-task-filter [(allTasks)]="tasks" />
+<app-tasks />

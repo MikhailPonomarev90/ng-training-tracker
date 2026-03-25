@@ -1,5 +1,5 @@
 import { computed, effect, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
-import { Task } from '../models/task.model';
+import { Task } from '../../features/tasks/models/task.model';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({

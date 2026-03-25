@@ -1,0 +1,23 @@
+<input [(ngModel)]="taskName" #taskInput />
+
+<button (click)="addTask()">Add task</button>
+
+<app-task-filter [(filter)]="currentFilter" />
+
+<ul>
+  @for (task of filteredTasks(); track task.id) {
+    <li>
+      <app-task-item [task]="task" />
+    </li>
+  }
+</ul>
+
+<button (click)="showStats()">Показать статистику</button>
+
+<ng-container #container></ng-container>
+
+<p>Progress: {{ progress() }}%</p>
+
+<p>tasksRemaining: {{ tasksRemaining() }}</p>
+
+<progress [value]="progress()" max="100"></progress>
