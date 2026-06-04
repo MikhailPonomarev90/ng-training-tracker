@@ -1,8 +1,8 @@
 import { isPlatformBrowser } from '@angular/common';
 import { computed, effect, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import { TaskFilter } from '../../../core/models/task-filter.model';
+import { Task } from '../../../core/models/task.model';
 import { TaskPersistenceService } from '../../../core/services/taskPersistence.service';
-import { TaskFilter } from '../models/task-filter.model';
-import { Task } from '../models/task.model';
 
 @Injectable({ providedIn: 'root' })
 export class TaskStore {

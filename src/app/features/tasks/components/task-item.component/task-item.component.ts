@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { Task } from '../../models/task.model';
+import { Task } from '../../../../core/models/task.model';
 import { TaskStore } from '../../store/task-store';
 
 @Component({
