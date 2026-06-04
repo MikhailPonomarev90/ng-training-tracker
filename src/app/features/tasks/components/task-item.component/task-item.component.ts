@@ -1,10 +1,6 @@
 import { Component, inject, input } from '@angular/core';
 import { Task } from '../../models/task.model';
-<<<<<<< HEAD
-import { TaskService } from '../../../../core/services/task.service';
-=======
 import { TaskStore } from '../../store/task-store';
->>>>>>> f85135770a182d907faba4aabdd635256fe2515b
 
 @Component({
   selector: 'app-task-item',

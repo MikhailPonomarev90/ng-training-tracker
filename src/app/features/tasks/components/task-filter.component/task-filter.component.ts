@@ -1,7 +1,7 @@
-import { Component, computed, model, output, signal } from '@angular/core';
-import { TaskFilter } from '../../models/task-filter.model';
-import { FormsModule } from '@angular/forms';
 import { TitleCasePipe } from '@angular/common';
+import { Component, model } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { TaskFilter } from '../../models/task-filter.model';
 
 @Component({
   selector: 'app-task-filter',
