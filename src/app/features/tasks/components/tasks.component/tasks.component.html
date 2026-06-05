@@ -7,14 +7,24 @@
 <ul>
   @for (task of filteredTasks(); track task.id) {
     <li>
-      <app-task-item [task]="task" />
+      <app-task-item
+        [task]="task"
+        (toggleTask)="taskStore.toggleTask($event)"
+        (removeTask)="taskStore.removeTask($event)"
+      />
     </li>
   }
 </ul>
 
-<button (click)="showStats()">Показать статистику</button>
+<button (click)="showStats.set(true)">Показать статистику</button>
 
-<ng-container #container></ng-container>
+@defer (when showStats()) {
+  <app-task-stats />
+} @placeholder {
+  <p>Статистика еще не загружена.</p>
+} @loading {
+  <p>Загрузка графиков...</p>
+}
 
 <p>Progress: {{ progress() }}%</p>
 

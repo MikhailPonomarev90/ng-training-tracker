@@ -1,6 +1,5 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Task } from '../../models/task.model';
-import { TaskStore } from '../../store/task-store';
 
 @Component({
   selector: 'app-task-item',
@@ -10,18 +9,15 @@ import { TaskStore } from '../../store/task-store';
   standalone: true,
 })
 export class TaskItemComponent {
-  private taskStore = inject(TaskStore);
   task = input.required<Task>();
+  toggleTask = output<number>();
+  removeTask = output<number>();
 
-  logTask() {
-    console.log('ID задачи:', this.task().id);
+  protected toggle(id: number) {
+    this.toggleTask.emit(id);
   }
 
-  toggleTask(id: number) {
-    this.taskStore.toggleTask(id);
-  }
-
-  removeTask(id: number) {
-    this.taskStore.removeTask(id);
+  protected remove(id: number) {
+    this.removeTask.emit(id);
   }
 }

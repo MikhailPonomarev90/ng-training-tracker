@@ -1,7 +1,9 @@
 import { isPlatformBrowser } from '@angular/common';
-import { computed, effect, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import { computed, effect, Inject, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import { TaskLoggerService } from '../../../task-logger-service';
 import { TaskFilter } from '../models/task-filter.model';
 import { Task } from '../models/task.model';
+import { TaskActionType } from '../services/taskLoggerService/models/task-action-type.model';
 import { TaskPersistenceService } from '../services/taskPersistence.service';
 
 @Injectable({ providedIn: 'root' })
@@ -11,6 +13,7 @@ export class TaskStore {
   currentFilter = signal<TaskFilter>(TaskFilter.All);
   private platformId = inject(PLATFORM_ID);
   private persistence = inject(TaskPersistenceService);
+  private taskLoggerService = Inject(TaskLoggerService);
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
@@ -55,15 +58,18 @@ export class TaskStore {
   addTask(title: string) {
     const newTask: Task = { id: Date.now(), title, completed: false };
     this.tasksSignal.update((tasks) => [...tasks, newTask]);
+    this.taskLoggerService.logAction(TaskActionType.Create, newTask.id);
   }
 
   toggleTask(id: number) {
     this.tasksSignal.update((tasks) =>
       tasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)),
     );
+    this.taskLoggerService.logAction(TaskActionType.Update, id);
   }
 
   removeTask(id: number) {
     this.tasksSignal.update((tasks) => tasks.filter((t) => t.id !== id));
+    this.taskLoggerService.logAction(TaskActionType.Delete, id);
   }
 }

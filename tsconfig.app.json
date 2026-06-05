@@ -5,6 +5,9 @@
   "compilerOptions": {
     "types": []
   },
-  "include": ["src/**/*.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/app/features/tasks/services/taskLoggerService/models/task-log.model.ts"
+  ],
   "exclude": ["src/**/*.spec.ts"]
 }

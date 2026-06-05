@@ -4,6 +4,6 @@
   } @else {
     <s>{{ task().title }}</s>
   }
-  <button (click)="toggleTask(task().id)">{{ !task().completed ? 'Done' : 'Undone' }}</button>
-  <button (click)="removeTask(task().id)">Remove</button>
+  <button (click)="toggle(task().id)">{{ !task().completed ? 'Done' : 'Undone' }}</button>
+  <button (click)="remove(task().id)">Remove</button>
 </div>
