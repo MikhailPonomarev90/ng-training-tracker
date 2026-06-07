@@ -1,13 +1,4 @@
-import {
-  Component,
-  computed,
-  ElementRef,
-  inject,
-  signal,
-  ViewChild,
-  viewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, computed, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TaskStore } from '../../store/task-store';
 import { TaskFilterComponent } from '../task-filter.component/task-filter.component';
@@ -25,24 +16,12 @@ export class TasksComponent {
   filteredTasks = this.taskStore.filteredTasks;
   currentFilter = this.taskStore.currentFilter;
   showStats = signal(false);
+  hasTasks = this.taskStore.hasTasks;
 
   taskInput = viewChild<ElementRef>('taskInput');
-  @ViewChild('container', { read: ViewContainerRef, static: true })
-  vcr!: ViewContainerRef;
-
   taskName = signal('');
 
-  progress = computed(() => {
-    const total = this.taskStore.tasks().length;
-    if (!total) return 0;
-    return Math.round((this.taskStore.completedTasks() / total) * 100);
-  });
-
-  tasksRemaining = computed(() => {
-    const total = this.taskStore.tasks().length;
-    if (!total) return 0;
-    return total - this.taskStore.completedTasks();
-  });
+  isTaskNameEmpty = computed(() => this.taskName().trim() === '');
 
   addTask() {
     if (!this.taskName().trim()) return;

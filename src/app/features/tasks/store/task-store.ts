@@ -41,18 +41,21 @@ export class TaskStore {
     }
   });
 
+  readonly totalTasks = computed(() => this.tasksSignal().length);
   readonly completedTasks = computed(() => this.tasksSignal().filter((t) => t.completed).length);
 
-  progress = computed(() => {
-    const total = this.tasksSignal().length;
-    if (!total) return 0;
-    return Math.round((this.completedTasks() / total) * 100);
+  readonly progress = computed(() => {
+    if (!this.totalTasks()) return 0;
+    return Math.round((this.completedTasks() / this.totalTasks()) * 100);
   });
 
-  tasksRemaining = computed(() => {
-    const total = this.tasksSignal().length;
-    if (!total) return 0;
-    return total - this.completedTasks();
+  readonly hasTasks = computed(() => {
+    return this.totalTasks() ? true : false;
+  });
+
+  readonly tasksRemaining = computed(() => {
+    if (!this.totalTasks()) return 0;
+    return this.totalTasks() - this.completedTasks();
   });
 
   addTask(title: string) {

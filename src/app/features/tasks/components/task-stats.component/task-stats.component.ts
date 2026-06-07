@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { TaskStore } from '../../store/task-store';
 
 @Component({
   selector: 'app-task-stats',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
   styleUrl: './task-stats.component.scss',
   standalone: true,
 })
-export class TaskStatsComponent {}
+export class TaskStatsComponent {
+  protected taskStore = inject(TaskStore);
+  totalTasks = this.taskStore.totalTasks;
+  completedTasks = this.taskStore.completedTasks;
+  activeTasks = this.taskStore.tasksRemaining;
+  progress = this.taskStore.progress;
+}

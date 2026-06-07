@@ -1,33 +1,27 @@
 <input [(ngModel)]="taskName" #taskInput />
 
-<button (click)="addTask()">Add task</button>
+<button [disabled]="isTaskNameEmpty()" (click)="addTask()">Add task</button>
 
 <app-task-filter [(filter)]="currentFilter" />
 
-<ul>
-  @for (task of filteredTasks(); track task.id) {
-    <li>
-      <app-task-item
-        [task]="task"
-        (toggleTask)="taskStore.toggleTask($event)"
-        (removeTask)="taskStore.removeTask($event)"
-      />
-    </li>
-  }
-</ul>
-
-<button (click)="showStats.set(true)">Показать статистику</button>
-
-@defer (when showStats()) {
-  <app-task-stats />
-} @placeholder {
-  <p>Статистика еще не загружена.</p>
-} @loading {
-  <p>Загрузка графиков...</p>
+@if (hasTasks()) {
+  <ul>
+    @for (task of filteredTasks(); track task.id) {
+      <li>
+        <app-task-item
+          [task]="task"
+          (toggleTask)="taskStore.toggleTask($event)"
+          (removeTask)="taskStore.removeTask($event)"
+        />
+      </li>
+    }
+  </ul>
+} @else {
+  <p>"Нет задач"</p>
 }
 
-<p>Progress: {{ progress() }}%</p>
+<button (click)="showStats.set(!showStats())">Показать статистику</button>
 
-<p>tasksRemaining: {{ tasksRemaining() }}</p>
-
-<progress [value]="progress()" max="100"></progress>
+@if (showStats()) {
+  <app-task-stats />
+}
