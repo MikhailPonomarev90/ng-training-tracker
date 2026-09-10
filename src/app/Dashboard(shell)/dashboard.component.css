@@ -1,0 +1,47 @@
+/* Базовая разметка каркаса сверху вниз */
+.shell-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Стили для верхней панели */
+.top-navbar {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem 2rem;
+}
+
+/* Выстраиваем ссылки в ряд */
+.nav-links {
+  display: flex;
+  gap: 1.5rem; /* Отступы между ссылками */
+}
+
+/* Обычный вид ссылки */
+.nav-links a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+/* Эффект при наведении */
+.nav-links a:hover {
+  background-color: #eaeaea;
+  color: #000;
+}
+
+/* 🌟 Класс, который Angular автоматически вешает на активную страницу */
+.nav-links a.active-link {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Контентная зона */
+.content-body {
+  flex: 1;
+  padding: 2rem;
+}

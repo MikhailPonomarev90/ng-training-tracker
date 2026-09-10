@@ -1,1 +1,15 @@
-<app-tasks />
+<div class="shell-layout">
+  <header class="top-navbar">
+    <nav class="nav-links">
+      <a routerLink="/day" routerLinkActive="active-link">День</a>
+      <a routerLink="/calendar" routerLinkActive="active-link">Календарь</a>
+      <a routerLink="/statistics" routerLinkActive="active-link">Статистика</a>
+      <a routerLink="/learning-plan" routerLinkActive="active-link">План обучения</a>
+      <a routerLink="/settings" routerLinkActive="active-link">Настройки</a>
+    </nav>
+  </header>
+
+  <main class="content-body">
+    <router-outlet></router-outlet>
+  </main>
+</div>
