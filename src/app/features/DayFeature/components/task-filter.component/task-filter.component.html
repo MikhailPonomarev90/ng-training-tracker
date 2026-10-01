@@ -1,0 +1,7 @@
+<div>
+  <select [(ngModel)]="filter">
+    @for (type of filterOptions; track type) {
+      <mat-button-toggle [value]="type">{{ type | titlecase }}</mat-button-toggle>
+    }
+  </select>
+</div>

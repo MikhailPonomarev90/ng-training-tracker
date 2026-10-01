@@ -1,0 +1,7 @@
+{
+  "welcome": "Welcome!",
+  "tasks": {
+    "title": "Task List",
+    "placeholder": "Add a task..."
+  }
+}

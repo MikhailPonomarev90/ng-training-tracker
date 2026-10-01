@@ -1,0 +1,57 @@
+<div class="shell-layout">
+  <mat-toolbar color="primary" class="top-navbar">
+    <nav mat-tab-nav-bar [tabPanel]="tabPanel" class="nav-links">
+      <a
+        mat-tab-link
+        routerLink="/day"
+        routerLinkActive
+        #r1="routerLinkActive"
+        [active]="r1.isActive"
+      >
+        День
+      </a>
+      <a
+        mat-tab-link
+        routerLink="/calendar"
+        routerLinkActive
+        #r2="routerLinkActive"
+        [active]="r2.isActive"
+      >
+        Календарь
+      </a>
+      <a
+        mat-tab-link
+        routerLink="/statistics"
+        routerLinkActive
+        #r3="routerLinkActive"
+        [active]="r3.isActive"
+      >
+        Статистика
+      </a>
+      <a
+        mat-tab-link
+        routerLink="/learning-plan"
+        routerLinkActive
+        #r4="routerLinkActive"
+        [active]="r4.isActive"
+      >
+        План обучения
+      </a>
+      <a
+        mat-tab-link
+        routerLink="/settings"
+        routerLinkActive
+        #r5="routerLinkActive"
+        [active]="r5.isActive"
+      >
+        Настройки
+      </a>
+    </nav>
+  </mat-toolbar>
+
+  <mat-tab-nav-panel #tabPanel>
+    <main class="content-body">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-tab-nav-panel>
+</div>

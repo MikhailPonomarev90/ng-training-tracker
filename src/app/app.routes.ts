@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './Dashboard(shell)/dashboard.component';
+import { DashboardComponent } from './dashboard(shell)/dashboard.component';
 
 export const routes: Routes = [
   {

@@ -1,0 +1,124 @@
+/* Базовый контейнер на весь экран */
+.fullscreen-card {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  justify-content: space-between;
+}
+
+.card-header {
+  margin-bottom: 24px;
+}
+
+.card-title {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0;
+}
+
+/* Прогресс бар */
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+}
+
+.progress-label {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.progress-values {
+  font-size: 18px;
+}
+
+.task-progress-bar {
+  height: 8px;
+  border-radius: 4px;
+}
+
+/* Фильтры */
+.filter-group {
+  width: 100%;
+  justify-content: stretch;
+}
+
+.filter-toggle {
+  flex: 1;
+  text-align: center;
+}
+
+/* Список задач */
+.task-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 4px 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding-bottom: 8px;
+}
+
+.task-checkbox {
+  width: 100%;
+}
+
+.task-text {
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+/* Стили для выполненной задачи */
+.task-text.completed {
+  text-decoration: line-through;
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.empty-state {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.38);
+  padding: 24px;
+}
+
+/* Кнопки в футере */
+.card-actions {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0 0 0;
+  margin: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.action-btn {
+  flex: 1;
+  height: 48px;
+  font-size: 16px;
+}
+
+.action-btn mat-icon {
+  margin-right: 8px;
+}
