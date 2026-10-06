@@ -122,3 +122,121 @@
 .action-btn mat-icon {
   margin-right: 8px;
 }
+
+.full-width {
+  width: 100%;
+  margin-bottom: 12px;
+}
+.tab-padding-content {
+  padding: 20px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.header-status-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+.status-badge.done {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+.status-badge.progress {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+.add-task-inline-btn {
+  margin-top: 8px;
+  align-self: flex-start;
+}
+.question-card-item {
+  background: rgba(0, 0, 0, 0.02);
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+.radio-row {
+  display: flex;
+  gap: 20px;
+}
+.radio-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.section-divider {
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  margin: 24px 0;
+}
+
+.card-content-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 40px;
+}
+
+.empty-day-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px; /* Ограничиваем ширину формы по центру */
+  text-align: center;
+}
+
+.calendar-empty-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: rgba(0, 0, 0, 0.26);
+  margin-bottom: 16px;
+}
+
+.empty-title {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.empty-subtitle {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.54);
+  margin-bottom: 24px;
+}
+
+.json-upload-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.json-upload-field textarea {
+  font-family: 'Courier New', Courier, monospace; /* Моноширинный шрифт для кода */
+  font-size: 13px;
+}
+
+.load-day-btn {
+  height: 48px;
+  padding: 0 32px;
+  font-size: 16px;
+}
+
+.theory-data-field textarea.monospace-textarea {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+}

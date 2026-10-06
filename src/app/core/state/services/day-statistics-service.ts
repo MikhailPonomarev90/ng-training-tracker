@@ -28,23 +28,4 @@ export class DayStatisticsService {
   hasTasks(tasks: Task[]): boolean {
     return !this.remaining(tasks);
   }
-  // private _tasks = signal<Task[]>([]);
-  // private _currentFilter = signal<TaskFilter>(TaskFilter.All);
-
-  // readonly totalTasks = computed(() => this.tasksSignal().length);
-  // readonly completedTasks = computed(() => this.tasksSignal().filter((t) => t.completed).length);
-
-  // readonly progress = computed(() => {
-  //   if (!this.totalTasks()) return 0;
-  //   return Math.round((this.completedTasks() / this.totalTasks()) * 100);
-  // });
-
-  // readonly tasksRemaining = computed(() => {
-  //   if (!this.totalTasks()) return 0;
-  //   return this.totalTasks() - this.completedTasks();
-  // });
-
-  // public changeFilter(filter: TaskFilter): void {
-  //   this._currentFilter.set(filter);
-  // }
 }

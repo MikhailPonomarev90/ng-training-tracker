@@ -3,5 +3,51 @@
   "tasks": {
     "title": "Task List",
     "placeholder": "Add a task..."
+  },
+  "dayPage": {
+    "dayTitle": "Today Day #",
+    "statusDone": "Ready for submission",
+    "statusProgress": "In progress",
+    "dayNotSelected": "Day not selected",
+    "uploadInstructions": "You can initialize the day structure by pasting its configuration JSON below:",
+    "jsonLabel": "Day Data (JSON)",
+    "jsonPlaceholder": "{ \"id\": \"day-9\", \"active\": true, ... }",
+    "btnLoad": "Load Day",
+    "btnCreateTask": "Add Task",
+    "btnReport": "Generate JSON Report",
+    "tabs": {
+      "general": "General",
+      "theory": "Theory",
+      "practice": "Practice",
+      "questions": "Polls & Rating"
+    },
+    "general": {
+      "briefing": "Briefing (Day Overview & Targets)",
+      "notes": "Notes and Personal Insights"
+    },
+    "theory": {
+      "info": "Theoretical Reference Data",
+      "time": "Time Spent (Theory)",
+      "timePlaceholder": "e.g., 1.5 hours",
+      "learned": "1️⃣ What was learned",
+      "unclear": "2️⃣ What remains unclear",
+      "terms": "3️⃣ New terms & concepts"
+    },
+    "practice": {
+      "time": "Time Spent (Practice)",
+      "progress": "Practical tasks execution progress",
+      "emptyTasks": "No practical tasks available"
+    },
+    "questions": {
+      "title": "Control Check Questions",
+      "empty": "No assigned questions for this day",
+      "answerLabel": "Your detailed answer",
+      "yes": "Yes",
+      "no": "No",
+      "architectureTitle": "Topic Architectural Review",
+      "architectureQuestion": "Architectural Question of the Day",
+      "architectureAnswer": "Explanation of your architectural approach",
+      "ratingLabel": "Self-assessment rating (productivity)"
+    }
   }
 }

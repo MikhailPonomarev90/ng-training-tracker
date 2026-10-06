@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Новая задача</h2>
+
+<mat-dialog-content>
+  <mat-form-field appearance="fill" style="width: 100%">
+    <mat-label>Название задачи</mat-label>
+    <input matInput [(ngModel)]="name" placeholder="Что нужно сделать?" autofocus />
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Отмена</button>
+  <button
+    mat-raised-button
+    color="primary"
+    [mat-dialog-close]="name.trim()"
+    [disabled]="!name.trim()"
+  >
+    Добавить
+  </button>
+</mat-dialog-actions>

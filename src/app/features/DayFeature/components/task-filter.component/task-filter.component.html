@@ -1,7 +1,5 @@
-<div>
-  <select [(ngModel)]="filter">
-    @for (type of filterOptions; track type) {
-      <mat-button-toggle [value]="type">{{ type | titlecase }}</mat-button-toggle>
-    }
-  </select>
-</div>
+<mat-button-toggle-group name="todoFilters" [(ngModel)]="filter" class="filter-group">
+  @for (type of filterOptions; track type) {
+    <mat-button-toggle [value]="type">{{ type | titlecase }}</mat-button-toggle>
+  }
+</mat-button-toggle-group>

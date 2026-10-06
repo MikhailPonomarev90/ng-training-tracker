@@ -1,5 +1,5 @@
 {
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  // For more information, visit: https://microsoft.com
   "version": "0.2.0",
   "configurations": [
     {
@@ -7,14 +7,18 @@
       "type": "chrome",
       "request": "launch",
       "preLaunchTask": "npm: start",
-      "url": "http://localhost:4200/"
+      "url": "http://localhost:4200/",
+      "runtimeExecutable": "/snap/bin/chromium",
+      "runtimeArgs": ["--remote-debugging-port=9222", "--no-sandbox"]
     },
     {
       "name": "ng test",
       "type": "chrome",
       "request": "launch",
       "preLaunchTask": "npm: test",
-      "url": "http://localhost:9876/debug.html"
+      "url": "http://localhost:9876/debug.html",
+      "runtimeExecutable": "/snap/bin/chromium",
+      "runtimeArgs": ["--remote-debugging-port=9222", "--no-sandbox"]
     }
   ]
 }

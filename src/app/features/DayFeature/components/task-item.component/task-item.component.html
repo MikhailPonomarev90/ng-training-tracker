@@ -1,9 +1,0 @@
-<div>
-  @if (!task().completed) {
-    <span>{{ task().title }}</span>
-  } @else {
-    <s>{{ task().title }}</s>
-  }
-  <button (click)="toggle(task().id)">{{ !task().completed ? 'Done' : 'Undone' }}</button>
-  <button (click)="remove(task().id)">Remove</button>
-</div>

@@ -1,0 +1,126 @@
+{
+  "id": "day-9",
+  "date": {
+    "dayNum": 9
+  },
+  "active": true,
+  "done": true,
+  "theory": {
+    "theoryData": "## 1. DayData как источник состояния\n\nDayData описывает состояние одного учебного дня. В текущей модели задачи являются частью дня:\n\nDayData\n└── practice\n    └── tasks: Task[]\n\nЭто означает, что Task не является самостоятельным состоянием приложения. Задача существует в контексте конкретного дня.\n\nПоэтому отдельный TaskStore, который хранит собственный массив Task[], создаёт вторую точку владения состоянием. Это становится проблемой: DayStore должен знать о задачах дня, а TaskStore — о задачах отдельно. Возникает дублирование и необходимость синхронизации.\n\nВ новой модели единственным владельцем состояния является DayStore:\n\nDayStore\n└── DayData[]\n    └── practice.tasks[]\n\nTask остаётся обычной моделью данных, а не отдельным Store.\n\n\n## 2. Операции над задачами\n\nЕсли задачи принадлежат DayData, операции над ними должны выполняться через DayStore.\n\nК таким операциям относятся:\n\n- addTask()\n- toggleTask()\n- removeTask()\n\nDayStore знает, какой день выбран, получает соответствующий DayData и изменяет его practice.tasks.\n\nНапример, логика toggleTask концептуально выглядит так:\n\nвыбранный день\n→ его tasks\n→ найти нужный Task\n→ создать обновлённый Task\n→ создать обновлённый DayData\n→ сохранить новое состояние\n\nВажно отличать операции изменения состояния от вычислений.\n\nDayStore отвечает за изменение состояния.\n\nDayStatisticsService отвечает только за расчёт значений.\n\n\n## 3. Производные данные\n\nНекоторые данные можно получить непосредственно из tasks.\n\nНапример:\n\ntotalTasks = количество всех задач\n\ncompletedTasks = количество выполненных задач\n\ntasksRemaining = количество невыполненных задач\n\nprogress = процент выполненных задач\n\nЭти значения являются производными. Их не обязательно хранить внутри DayData.\n\nЕсли хранить одновременно:\n\ntasks\ncompletedTasks\ntotalTasks\nprogress\n\nто при каждом изменении задачи необходимо синхронно изменять несколько полей. Это создаёт риск рассинхронизации.\n\nИсточник истины должен оставаться один:\n\ntasks\n\nА статистика вычисляется из него.\n\n\n## 4. DayStatisticsService\n\nЕсли вычислений становится несколько, их можно объединить в отдельный сервис с одной понятной ответственностью — расчёт статистики дня.\n\nНапример:\n\nDayStatisticsService\n├── total()\n├── completed()\n├── remaining()\n└── progress()\n\nЭтот сервис не должен знать о DayStore, selectedDayId, localStorage или UI.\n\nЕго задача — получить Task[] и вернуть результат вычисления.\n\nТо есть:\n\nTask[]\n↓\nDayStatisticsService\n↓\nстатистика\n\nЭто чистая логика вычисления.\n\nВ отличие от неё:\n\nDayStore\n↓\nизменяет DayData\n\nПоэтому создание отдельного DayStatisticsService оправдано: он группирует связанную вычислительную ответственность.\n\nА создание TaskService только ради addTask(), toggleTask() и removeTask() в текущей архитектуре не даёт такой пользы. Эти операции непосредственно изменяют состояние DayData и поэтому естественно принадлежат DayStore.\n\n\n## 5. DayStore как владелец состояния\n\nDayStore сейчас является центральным состоянием дней приложения.\n\nОн отвечает за:\n\n- хранение DayData;\n- выбранный день;\n- изменение DayData;\n- изменение задач выбранного дня;\n- вычисление производного состояния через computed;\n- запуск persistence через effect.\n\nТаким образом, поток выглядит так:\n\nDayData[]\n↓\nDayStore\n├── state\n├── operations\n└── computed\n      ↓\nDayStatisticsService\n\n\n## 6. PersistenceService\n\nPersistenceService имеет другую ответственность.\n\nОн не должен знать, что такое DayData или Task. Его задача — сохранить или загрузить данные.\n\nАрхитектурно:\n\nDayStore\n↓\neffect()\n↓\nPersistenceService\n↓\nlocalStorage\n\nDayStore определяет, когда состояние изменилось и что нужно сохранить.\n\nPersistenceService только выполняет техническую операцию хранения.\n\nТаким образом, не следует помещать бизнес-логику DayData внутрь PersistenceService.\n\n\n## 7. Почему DayData может быть выше DayFeature\n\nИзначально DayData может казаться моделью только для DayPage.\n\nНо если одни и те же дни используются несколькими feature:\n\nDayPage\nCalendarPage\nStatisticsPage\n\nто DayData уже является общей моделью приложения.\n\nНапример:\n\nDayPage → показывает задачи выбранного дня.\n\nCalendarPage → показывает дни и их состояние.\n\nStatisticsPage → анализирует выполненные задачи разных дней.\n\nВсе три feature работают с одним источником состояния — DayStore.\n\nПоэтому архитектурно имеет смысл отделить общую модель и состояние от конкретной feature.\n\nНапример:\n\ncore/\n├── domain/\n│   ├── models/\n│   │   ├── day-data.model.ts\n│   │   └── task.model.ts\n│   └── services/\n│       └── day-statistics.service.ts\n│\n└── state/\n    └── day.store.ts\n\nfeatures/\n├── day/\n├── calendar/\n└── statistics/\n\nFeature отвечает за пользовательский сценарий и UI.\n\nDomain описывает данные и правила предметной области.\n\nState хранит состояние приложения и операции над ним.\n\n\n## Главная мысль дня\n\nНе нужно создавать отдельный сервис или Store для каждого типа данных.\n\nСначала нужно определить, кто владеет состоянием.\n\nВ текущей модели:\n\nDayStore владеет DayData.\n\nПосле этого определяется ответственность операций:\n\nDayStore изменяет DayData.\n\nЗатем отделяются чистые вычисления:\n\nDayStatisticsService вычисляет статистику.\n\nИ отдельно остаётся техническая инфраструктура:\n\nPersistenceService сохраняет состояние.\n\nПолучается простая цепочка:\n\nDayData\n↓\nDayStore\n├── операции изменения\n├── computed-состояние\n│\n├──→ DayStatisticsService\n│\n└──→ PersistenceService",
+    "timeSpent": "3",
+    "whatLearned": "Должен быть один источник данных - single spurce of trouth. Что-то можно вынести в сервисы, но если это только пересчитывание данных, а не представление новых данных. Отдельные компоненты отвечают за ui, а отдельные за store",
+    "whatIsUnclear": "",
+    "newTerms": "Производные данные"
+  },
+  "practice": {
+    "timeSpent": "15",
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Пересмотреть архитектуру DayData и определить, какие данные относятся непосредственно к дню, а какие являются производными.",
+        "completed": true
+      },
+      {
+        "id": 2,
+        "title": "Перенести задачи из отдельного TaskStore в DayStore и хранить их внутри DayData.practice.tasks.",
+        "completed": true
+      },
+      {
+        "id": 3,
+        "title": "Реализовать в DayStore операции addTask, toggleTask и removeTask для задач выбранного дня.",
+        "completed": true
+      },
+      {
+        "id": 4,
+        "title": "Выделить вычисления totalTasks, completedTasks, tasksRemaining и progress в DayStatisticsService.",
+        "completed": true
+      },
+      {
+        "id": 5,
+        "title": "Проверить границы ответственности DayStore, DayStatisticsService и PersistenceService. Не допускать дублирования ответственности.",
+        "completed": true
+      },
+      {
+        "id": 6,
+        "title": "Проверить сохранение DayData через effect и PersistenceService после изменения задач выбранного дня.",
+        "completed": true
+      },
+      {
+        "id": 1791309250206,
+        "title": "Добавить сервис перевода l10n",
+        "completed": true
+      },
+      {
+        "id": 1791309297413,
+        "title": "добавить сервис логгирования loggerService, с EntityModel+ActionModel. Например[Log] [STORAGE_SAVE STORAGE] {id: 'af44518c-c1f3-4589-acae-c83d50c141a2', action: 'STORAGE_SAVE', entity: 'STORAGE', timestamp: Tue Oct 06 2026 20:51:01 GMT+0300 (Moscow Standard Time), payload: {…}} logger-service.ts:24 [Log] [STORAGE_SAVE STORAGE] {id: '30f50f8e-df2e-442a-b2c7-7a22d3c8ff2d', action: 'STORAGE_SAVE', entity: 'STORAGE', timestamp: Tue Oct 06 2026 20:51:01 GMT+0300 (Moscow Standard Time), payload: {…}} day:1 Autofocus processing was blocked because a document already has a focused element. logger-service.ts:24 [Log] [CREATED TASK] {id: 'cb12ea5a-f08d-42fd-92d1-2d2e71c57714', action: 'CREATED', entity: 'TASK', timestamp: Tue Oct 06 2026 20:54:10 GMT+0300 (Moscow Standard Time), payload: 1791309250206} logger-service.ts:24 [Log] [STORAGE_SAVE STORAGE]",
+        "completed": true
+      },
+      {
+        "id": 1791314782087,
+        "title": "добавить angularMaterial",
+        "completed": true
+      }
+    ]
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "text": "Почему TaskStore больше не нужен, если Task является частью DayData?",
+      "type": "text",
+      "answer": "Потому что сущность dayData содержит в себе tasks"
+    },
+    {
+      "id": "q2",
+      "text": "Какая ответственность должна находиться в DayStore, а какая в DayStatisticsService?",
+      "type": "text",
+      "answer": "Day store ддолжен хранить источник правды, а производные данные - например количество выполенных заданий - можно вынести в сервис."
+    },
+    {
+      "id": "q3",
+      "text": "Почему totalTasks, completedTasks, tasksRemaining и progress не стоит хранить непосредственно в DayData?",
+      "type": "text",
+      "answer": "Сервис будет перегружен"
+    },
+    {
+      "id": "q4",
+      "text": "Должен ли PersistenceService знать о DayData, Task или DayStore?",
+      "type": "binary",
+      "answer": false
+    },
+    {
+      "id": "q5",
+      "text": "Где должна находиться операция toggleTask, если задачи хранятся внутри DayData выбранного дня?",
+      "type": "multiple-choice",
+      "options": [
+        "В DayStore",
+        "В DayStatisticsService",
+        "В PersistenceService",
+        "В TaskItemComponent"
+      ],
+      "selectedOptionIndex": 0
+    },
+    {
+      "id": "q6",
+      "text": "Какой компонент должен владеть состоянием DayStore: DayPage или TaskItem?",
+      "type": "text",
+      "answer": "DayPage,  а он уже должен поставлять данные в taskItem"
+    },
+    {
+      "id": "q7",
+      "text": "Если StatisticsPage тоже должна получать данные о выполненных задачах, должна ли она создавать собственное состояние задач или использовать состояние DayStore?",
+      "type": "text",
+      "answer": "Должен быть один источник правды - это day store. Но я думаю для операций можно создать statiscticsStore, который будет менять данные и предоставлять их в удобном виде"
+    },
+    {
+      "id": "q8",
+      "text": "Advanced: почему выделение DayStatisticsService оправдано, а выделение отдельного TaskService только ради addTask/toggleTask/removeTask в текущей архитектуре было бы лишним слоем?",
+      "type": "text",
+      "answer": "Это сложный вопрос. Я думаю потому что нету много операций с tasks"
+    }
+  ],
+  "notes": "Для полноценной реализации пришлось сразу ввести логгер сервис, произвести рефактор папок core, так как в них теперь state и l10n, и переписать весь экран day.\nУ меня очень вырос dayPage component - 312 строк- наверное надо вынести tasks в отдельный компонент. Но с другой стороны так как я использую angularMaterial то всё однотипное",
+  "briefing": "Сегодня ты приводишь архитектуру управления днями и задачами к единой модели.\n\nГлавная идея дня: Task больше не является самостоятельной сущностью состояния приложения — он принадлежит конкретному DayData. Поэтому DayStore становится владельцем состояния дней и операций над задачами выбранного дня.\n\nНужно понять и реализовать:\n1. Почему отдельный TaskStore больше не нужен.\n2. Почему addTask, toggleTask и removeTask должны находиться в DayStore.\n3. Какие данные являются исходным состоянием, а какие — производными.\n4. Почему totalTasks, completedTasks, tasksRemaining и progress лучше вычислять, а не хранить в DayData.\n5. Как выделить чистые вычисления в DayStatisticsService, не превращая его в сервис управления задачами.\n6. Как DayStore, DayStatisticsService и PersistenceService разделяют ответственность.\n7. Почему DayData и DayStore могут потребоваться не только DayPage, но и CalendarPage и StatisticsPage.\n\nПосле практики ты должен понимать границу между состоянием, операциями над состоянием, вычисляемыми данными и persistence.",
+  "architecturalQuestion": "Если DayData используется не только DayPage, но также CalendarPage и StatisticsPage, где должна находиться DayData и где должен находиться DayStore: внутри features/day или на более высоком уровне приложения? Объясни почему.",
+  "architecturalAnswer": "Однозначно на более высоком глобальном уровне приложения (в слое core). По архитектурным правилам (Feature-Driven Architecture):\n1. Разрушение изолированности фич: Если вы оставите DayStore внутри features/day, то страницы CalendarPage и StatisticsPage (которые технически являются другими фичами) будут вынуждены импортировать данные из чужой папки. Это порождает сильную зацепленность (Tight Coupling) кода.\n2. Единый источник истины (Single Source of Truth): Стор дня управляет сквозным глобальным состоянием сессии. Календарь должен знать, какие дни заполнены, а статистика — высчитывать прогресс за неделю/месяц. Стор дня здесь выступает как ядро данных всего приложения",
+  "rating": 10
+}

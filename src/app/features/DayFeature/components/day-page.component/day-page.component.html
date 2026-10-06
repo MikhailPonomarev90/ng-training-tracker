@@ -1,76 +1,312 @@
 <mat-card class="fullscreen-card">
   @if (dayData(); as data) {
     <mat-card-header class="card-header">
-      <mat-card-title class="card-title">Сегодня: {{ data.date.dayNum }}</mat-card-title>
+      <div class="header-status-wrapper">
+        <mat-card-title class="card-title">
+          {{ 'dayPage.dayTitle' | translate }} {{ data.date.dayNum }}
+        </mat-card-title>
+        @if (data.done) {
+          <span class="status-badge done">
+            <mat-icon>check_circle</mat-icon> {{ 'dayPage.statusDone' | translate }}
+          </span>
+        } @else {
+          <span class="status-badge progress">
+            <mat-icon>pending</mat-icon> {{ 'dayPage.statusProgress' | translate }}
+          </span>
+        }
+      </div>
     </mat-card-header>
 
     <mat-card-content class="card-content">
-      <div class="progress-container">
-        <div class="progress-info">
-          <span class="progress-label">Прогресс задач</span>
-          <strong class="progress-values"
-            >{{ dayStore.completedTasks() }} / {{ dayStore.totalTasks() }}</strong
-          >
-        </div>
-        <mat-progress-bar
-          mode="determinate"
-          [value]="dayStore.progress()"
-          color="primary"
-          class="task-progress-bar"
-        ></mat-progress-bar>
-      </div>
+      <mat-tab-group class="form-tabs">
+        <!-- ВКЛАДКА 1: ОБЩЕЕ (БРИФИНГ И ПРИМЕЧАНИЯ) -->
+        <mat-tab [label]="'dayPage.tabs.general' | translate">
+          <div class="tab-padding-content">
+            @if (data.briefing) {
+              <mat-form-field appearance="outline" class="full-width briefing-field">
+                <mat-label>{{ 'dayPage.general.briefing' | translate }}</mat-label>
+                <textarea
+                  matInput
+                  [value]="data.briefing"
+                  readonly
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="5"
+                  cdkAutosizeMaxRows="30"
+                >
+                </textarea>
+              </mat-form-field>
+            }
 
-      <mat-button-toggle-group name="todoFilters" value="all" class="filter-group">
-        <app-task-filter [(filter)]="currentFilter" />
-      </mat-button-toggle-group>
-
-      <div class="task-list">
-        @for (task of data.tasks; track task.id) {
-          <div class="task-item">
-            <mat-checkbox [checked]="task.completed" class="task-checkbox">
-              <span class="task-text" [class.completed]="task.completed">
-                {{ task.title }}
-              </span>
-            </mat-checkbox>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ 'dayPage.general.notes' | translate }}</mat-label>
+              <textarea
+                matInput
+                [ngModel]="data.notes"
+                (ngModelChange)="onFieldChange({ notes: $event })"
+                rows="5"
+              ></textarea>
+            </mat-form-field>
           </div>
-        } @empty {
-          <div class="empty-state">Список задач пуст</div>
-        }
-      </div>
+        </mat-tab>
+
+        <!-- ВКЛАДКА 2: ТЕОРИЯ (ИНФОРМАЦИЯ И ПОЛЯ ОТВЕТОВ) -->
+        <mat-tab [label]="'dayPage.tabs.theory' | translate">
+          <div class="tab-padding-content">
+            @if (data.theory.theoryData) {
+              <mat-form-field appearance="outline" class="full-width theory-data-field">
+                <mat-label>{{ 'dayPage.theory.info' | translate }}</mat-label>
+                <textarea
+                  matInput
+                  [value]="data.theory.theoryData"
+                  readonly
+                  cdkTextareaAutosize
+                  cdkAutosizeMinRows="8"
+                  cdkAutosizeMaxRows="60"
+                  class="monospace-textarea"
+                >
+                </textarea>
+              </mat-form-field>
+            }
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ 'dayPage.theory.time' | translate }}</mat-label>
+              <input
+                matInput
+                [ngModel]="data.theory.timeSpent"
+                (ngModelChange)="onTheoryChange('timeSpent', $event)"
+                [placeholder]="'dayPage.theory.timePlaceholder' | translate"
+              />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ 'dayPage.theory.learned' | translate }}</mat-label>
+              <textarea
+                matInput
+                [ngModel]="data.theory.whatLearned"
+                (ngModelChange)="onTheoryChange('whatLearned', $event)"
+                rows="3"
+              ></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ 'dayPage.theory.unclear' | translate }}</mat-label>
+              <textarea
+                matInput
+                [ngModel]="data.theory.whatIsUnclear"
+                (ngModelChange)="onTheoryChange('whatIsUnclear', $event)"
+                rows="3"
+              ></textarea>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ 'dayPage.theory.terms' | translate }}</mat-label>
+              <textarea
+                matInput
+                [ngModel]="data.theory.newTerms"
+                (ngModelChange)="onTheoryChange('newTerms', $event)"
+                rows="2"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </mat-tab>
+
+        <!-- ВКЛАДКА 3: ПРАКТИКА И ЗАДАЧИ -->
+        <mat-tab [label]="'dayPage.tabs.practice' | translate">
+          <div class="tab-padding-content">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ 'dayPage.practice.time' | translate }}</mat-label>
+              <input
+                matInput
+                [ngModel]="data.practice.timeSpent"
+                (ngModelChange)="onPracticeChange('timeSpent', $event)"
+              />
+            </mat-form-field>
+
+            <div class="progress-container">
+              <div class="progress-info">
+                <span class="progress-label">{{ 'dayPage.practice.progress' | translate }}</span>
+                <strong class="progress-values"
+                  >{{ dayStore.completedTasks() }} / {{ dayStore.totalTasks() }}</strong
+                >
+              </div>
+              <mat-progress-bar
+                mode="determinate"
+                [value]="dayStore.progress()"
+                color="primary"
+                class="task-progress-bar"
+              ></mat-progress-bar>
+            </div>
+
+            <app-task-filter [(filter)]="currentFilter" />
+
+            <div class="task-list">
+              @for (task of filteredTasks(); track task.id) {
+                <div class="task-item">
+                  <mat-checkbox
+                    [checked]="task.completed"
+                    class="task-checkbox"
+                    (change)="dayStore.toggleTask(task.id)"
+                  >
+                    <span class="task-text" [class.completed]="task.completed">{{
+                      task.title
+                    }}</span>
+                  </mat-checkbox>
+                </div>
+              } @empty {
+                <div class="empty-state">{{ 'dayPage.practice.emptyTasks' | translate }}</div>
+              }
+            </div>
+
+            <button
+              mat-stroked-button
+              color="primary"
+              class="add-task-inline-btn"
+              (click)="openAddTaskDialog()"
+            >
+              <mat-icon>add</mat-icon> {{ 'dayPage.btnCreateTask' | translate }}
+            </button>
+          </div>
+        </mat-tab>
+
+        <!-- ВКЛАДКА 4: ВОПРОСЫ, АРХИТЕКТУРА И САМООЦЕНКА -->
+        <mat-tab [label]="'dayPage.tabs.questions' | translate">
+          <div class="tab-padding-content">
+            <div class="questions-section">
+              <h3>{{ 'dayPage.questions.title' | translate }}</h3>
+
+              @for (question of data.questions; track question.id; let idx = $index) {
+                <div class="question-card-item">
+                  <p class="question-text">
+                    <strong>{{ idx + 1 }}.</strong> {{ question.text }}
+                  </p>
+
+                  @if (question.type === 'text') {
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>{{ 'dayPage.questions.answerLabel' | translate }}</mat-label>
+                      <textarea
+                        matInput
+                        [ngModel]="question.answer"
+                        (ngModelChange)="onQuestionAnswerChange(question.id, { answer: $event })"
+                      ></textarea>
+                    </mat-form-field>
+                  }
+
+                  @if (question.type === 'binary') {
+                    <mat-radio-group
+                      [ngModel]="question.answer"
+                      (ngModelChange)="onQuestionAnswerChange(question.id, { answer: $event })"
+                      class="radio-row"
+                    >
+                      <mat-radio-button [value]="true">{{
+                        'dayPage.questions.yes' | translate
+                      }}</mat-radio-button>
+                      <mat-radio-button [value]="false">{{
+                        'dayPage.questions.no' | translate
+                      }}</mat-radio-button>
+                    </mat-radio-group>
+                  }
+
+                  @if (question.type === 'multiple-choice') {
+                    <mat-radio-group
+                      [ngModel]="question.selectedOptionIndex"
+                      (ngModelChange)="
+                        onQuestionAnswerChange(question.id, { selectedOptionIndex: $event })
+                      "
+                      class="radio-column"
+                    >
+                      @for (option of question.options; track option; let oIdx = $index) {
+                        <mat-radio-button [value]="oIdx">{{ option }}</mat-radio-button>
+                      }
+                    </mat-radio-group>
+                  }
+                </div>
+              } @empty {
+                <div class="empty-state">{{ 'dayPage.questions.empty' | translate }}</div>
+              }
+            </div>
+
+            <!-- АРХИТЕКТУРНЫЙ ВОПРОС (НЕ РЕДАКТИРУЕМЫЙ) И ПОЛЕ ОТВЕТА -->
+            @if (data.architecturalQuestion) {
+              <div class="architecture-block-final">
+                <h3>{{ 'dayPage.questions.architectureTitle' | translate }}</h3>
+                <mat-form-field appearance="outline" class="full-width arch-question-readonly">
+                  <mat-label>{{ 'dayPage.questions.architectureQuestion' | translate }}</mat-label>
+                  <textarea
+                    matInput
+                    [value]="data.architecturalQuestion"
+                    readonly
+                    rows="3"
+                  ></textarea>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>{{ 'dayPage.questions.architectureAnswer' | translate }}</mat-label>
+                  <textarea
+                    matInput
+                    [ngModel]="data.architecturalAnswer"
+                    (ngModelChange)="onFieldChange({ architecturalAnswer: $event })"
+                    rows="4"
+                  ></textarea>
+                </mat-form-field>
+              </div>
+            }
+
+            <hr class="section-divider" />
+
+            <div class="rating-section">
+              <mat-form-field appearance="outline">
+                <mat-label>{{ 'dayPage.questions.ratingLabel' | translate }}</mat-label>
+                <mat-select
+                  [ngModel]="data.rating"
+                  (ngModelChange)="onFieldChange({ rating: $event })"
+                >
+                  @for (opt of ratingOptions; track opt) {
+                    <mat-option [value]="opt">{{ opt }} / 10</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
     </mat-card-content>
 
     <mat-card-actions class="card-actions">
-      <button mat-raised-button color="primary" class="action-btn">
-        <mat-icon>add</mat-icon>
-        Добавить задачу
-      </button>
-      <button mat-stroked-button color="accent" class="action-btn">
-        <mat-icon>assessment</mat-icon>
-        Сформировать отчёт
+      <button
+        mat-raised-button
+        color="primary"
+        class="action-btn"
+        [disabled]="!data.done"
+        (click)="generateReport()"
+      >
+        <mat-icon>assessment</mat-icon> {{ 'dayPage.btnReport' | translate }}
       </button>
     </mat-card-actions>
+  } @else {
+    <mat-card-content class="card-content-empty">
+      <div class="empty-day-state">
+        <mat-icon class="calendar-empty-icon">calendar_today</mat-icon>
+        <p class="empty-title">{{ 'dayPage.dayNotSelected' | translate }}</p>
+        <p class="empty-subtitle">{{ 'dayPage.uploadInstructions' | translate }}</p>
+
+        <mat-form-field appearance="outline" class="json-upload-field">
+          <mat-label>{{ 'dayPage.jsonLabel' | translate }}</mat-label>
+          <textarea
+            matInput
+            [ngModel]="jsonInput()"
+            (ngModelChange)="jsonInput.set($event)"
+            rows="8"
+            [placeholder]="'dayPage.jsonPlaceholder' | translate"
+          >
+          </textarea>
+        </mat-form-field>
+
+        <!-- Кнопка подтверждения и загрузки дня в Store -->
+        <button mat-raised-button color="primary" class="load-day-btn" (click)="loadDayFromJson()">
+          <mat-icon>cloud_upload</mat-icon>
+          {{ 'dayPage.btnLoad' | translate }}
+        </button>
+      </div>
+    </mat-card-content>
   }
 </mat-card>
-
-<!-- <input [(ngModel)]="taskName" #taskInput />
-
-<button [disabled]="isTaskNameEmpty()" (click)="addTask()">Add task</button>
-
-@if (hasTasks()) {
-  <ul>
-    @for (task of filteredTasks(); track task.id) {
-      <li>
-        <app-task-item
-          [task]="task"
-          (toggleTask)="taskStore.toggleTask($event)"
-          (removeTask)="taskStore.removeTask($event)"
-        />
-      </li>
-    }
-  </ul>
-} @else {
-  <p>"Нет задач"</p>
-}
-
-<button (click)="showStats.set(!showStats())">Показать статистику</button>
- -->
