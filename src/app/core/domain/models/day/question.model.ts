@@ -2,6 +2,7 @@ export enum QuestionType {
   Text = 'text',
   Binary = 'binary',
   MultipleChoice = 'multiple-choice',
+  Code = 'code',
 }
 
 export interface BaseQuestion {
@@ -29,5 +30,11 @@ export interface MultipleChoiceQuestion extends BaseQuestion {
   selectedOptionIndex?: number;
 }
 
+// 3. Вопрос с 4 вариантами ответа
+export interface CodeQuestion extends BaseQuestion {
+  type: QuestionType.Code;
+  answer?: string;
+}
+
 // Финальный тип Вопроса
-export type DayQuestion = TextQuestion | BinaryQuestion | MultipleChoiceQuestion;
+export type DayQuestion = TextQuestion | BinaryQuestion | MultipleChoiceQuestion | CodeQuestion;

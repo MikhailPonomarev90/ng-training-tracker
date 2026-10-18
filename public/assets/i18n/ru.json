@@ -1,5 +1,12 @@
 {
   "welcome": "Добро пожаловать!",
+  "navigation": {
+    "day": "День",
+    "calendar": "Календарь",
+    "statistics": "Статистика",
+    "learningPlan": "План обучения",
+    "settings": "Настройки"
+  },
   "tasks": {
     "title": "Список задач",
     "placeholder": "Добавить задачу..."
@@ -11,6 +18,7 @@
     "dayNotSelected": "День не выбран",
     "uploadInstructions": "Вы можете инициализировать день, вставив его конфигурационный JSON ниже:",
     "jsonLabel": "Данные дня (JSON)",
+    "jsonValidationError": "Ошибки валидации структуры JSON",
     "jsonPlaceholder": "{ \"id\": \"day-9\", \"active\": true, ... }",
     "btnLoad": "Загрузить день",
     "btnCreateTask": "Добавить задачу",
@@ -49,5 +57,8 @@
       "architectureAnswer": "Объяснение вашего архитектурного решения",
       "ratingLabel": "Самооценка дня (продуктивность)"
     }
+  },
+  "errors": {
+    "invalidJSON": "Некорректный JSON. Проверьте синтаксис."
   }
 }

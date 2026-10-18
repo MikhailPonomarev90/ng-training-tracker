@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { StorageAction } from '../../infrastructure/models/storageAction';
-import { ActionType } from '../models/action-type.model';
-import { EntityType } from '../models/entity-type.model';
-import { LogEntry } from '../models/logEntry';
+import { StorageAction } from '../../../infrastructure/models/storageAction';
+import { ActionType } from '../../models/logger/action-type.model';
+import { EntityType } from '../../models/logger/entity-type.model';
+import { LogEntry } from '../../models/logger/logEntry';
 
 @Injectable({
   providedIn: 'root',

@@ -1,4 +1,4 @@
-import { StorageAction } from '../../infrastructure/models/storageAction';
+import { StorageAction } from '../../../infrastructure/models/storageAction';
 import { ActionType } from './action-type.model';
 import { EntityType } from './entity-type.model';
 

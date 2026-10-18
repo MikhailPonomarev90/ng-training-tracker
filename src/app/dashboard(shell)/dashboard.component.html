@@ -8,7 +8,7 @@
         #r1="routerLinkActive"
         [active]="r1.isActive"
       >
-        День
+        {{ 'navigation.day' | translate }}
       </a>
       <a
         mat-tab-link
@@ -17,7 +17,7 @@
         #r2="routerLinkActive"
         [active]="r2.isActive"
       >
-        Календарь
+        {{ 'navigation.calendar' | translate }}
       </a>
       <a
         mat-tab-link
@@ -26,7 +26,7 @@
         #r3="routerLinkActive"
         [active]="r3.isActive"
       >
-        Статистика
+        {{ 'navigation.statistics' | translate }}
       </a>
       <a
         mat-tab-link
@@ -35,7 +35,7 @@
         #r4="routerLinkActive"
         [active]="r4.isActive"
       >
-        План обучения
+        {{ 'navigation.learningPlan' | translate }}
       </a>
       <a
         mat-tab-link
@@ -44,7 +44,7 @@
         #r5="routerLinkActive"
         [active]="r5.isActive"
       >
-        Настройки
+        {{ 'navigation.settings' | translate }}
       </a>
     </nav>
   </mat-toolbar>

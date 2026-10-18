@@ -5,7 +5,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { TaskFilter } from '../../models/task-filter.model';
 
 @Component({
-  selector: 'app-task-filter',
+  selector: 'app-task-filter-component',
   imports: [FormsModule, TitleCasePipe, MatButtonToggleModule],
   templateUrl: './task-filter.component.html',
   styleUrl: './task-filter.component.scss',

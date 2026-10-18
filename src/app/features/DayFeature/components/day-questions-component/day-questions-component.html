@@ -1,0 +1,112 @@
+<mat-tab [label]="'dayPage.tabs.questions' | translate">
+  <div class="tab-padding-content">
+    <div class="questions-section">
+      <h3>{{ 'dayPage.questions.title' | translate }}</h3>
+
+      @for (question of questionsData().questions; track question.id; let idx = $index) {
+        <div class="question-card-item">
+          <p class="question-text">
+            <strong>{{ idx + 1 }}.</strong> {{ question.text }}
+          </p>
+
+          @if (question.type === 'text') {
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>{{ 'dayPage.questions.answerLabel' | translate }}</mat-label>
+              <textarea
+                matInput
+                [ngModel]="question.answer"
+                (ngModelChange)="
+                  questionAnswerChange.emit({
+                    questionId: question.id,
+                    updatedFields: { answer: $event },
+                  })
+                "
+              ></textarea>
+            </mat-form-field>
+          }
+
+          @if (question.type === 'binary') {
+            <mat-radio-group
+              [ngModel]="question.answer"
+              (ngModelChange)="
+                questionAnswerChange.emit({
+                  questionId: question.id,
+                  updatedFields: { answer: $event },
+                })
+              "
+              class="radio-row"
+            >
+              <mat-radio-button [value]="true">{{
+                'dayPage.questions.yes' | translate
+              }}</mat-radio-button>
+              <mat-radio-button [value]="false">{{
+                'dayPage.questions.no' | translate
+              }}</mat-radio-button>
+            </mat-radio-group>
+          }
+
+          @if (question.type === 'multiple-choice') {
+            <mat-radio-group
+              [ngModel]="question.selectedOptionIndex"
+              (ngModelChange)="
+                questionAnswerChange.emit({
+                  questionId: question.id,
+                  updatedFields: { selectedOptionIndex: $event },
+                })
+              "
+              class="radio-column"
+            >
+              @for (option of question.options; track option; let oIdx = $index) {
+                <mat-radio-button [value]="oIdx">{{ option }}</mat-radio-button>
+              }
+            </mat-radio-group>
+          }
+        </div>
+      } @empty {
+        <div class="empty-state">{{ 'dayPage.questions.empty' | translate }}</div>
+      }
+    </div>
+
+    <!-- АРХИТЕКТУРНЫЙ ВОПРОС (НЕ РЕДАКТИРУЕМЫЙ) И ПОЛЕ ОТВЕТА -->
+    @if (questionsData().architecturalQuestion) {
+      <div class="architecture-block-final">
+        <h3>{{ 'dayPage.questions.architectureTitle' | translate }}</h3>
+        <mat-form-field appearance="outline" class="full-width arch-question-readonly">
+          <mat-label>{{ 'dayPage.questions.architectureQuestion' | translate }}</mat-label>
+          <textarea
+            matInput
+            [value]="questionsData().architecturalQuestion"
+            readonly
+            rows="3"
+          ></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>{{ 'dayPage.questions.architectureAnswer' | translate }}</mat-label>
+          <textarea
+            matInput
+            [ngModel]="questionsData().architecturalAnswer"
+            (ngModelChange)="onFieldChange({ architecturalAnswer: $event })"
+            rows="4"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    }
+
+    <hr class="section-divider" />
+
+    <div class="rating-section">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ 'dayPage.questions.ratingLabel' | translate }}</mat-label>
+        <mat-select
+          [ngModel]="questionsData().rating"
+          (ngModelChange)="onFieldChange({ rating: $event })"
+        >
+          @for (opt of ratingOptions; track opt) {
+            <mat-option [value]="opt">{{ opt }} / 10</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</mat-tab>

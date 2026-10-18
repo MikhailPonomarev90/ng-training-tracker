@@ -1,0 +1,59 @@
+<mat-tab [label]="'dayPage.tabs.theory' | translate">
+  <div class="tab-padding-content">
+    @if (theoryData().theoryData) {
+      <mat-form-field appearance="outline" class="full-width theory-data-field">
+        <mat-label>{{ 'dayPage.theory.info' | translate }}</mat-label>
+        <textarea
+          matInput
+          [value]="theoryData().theoryData"
+          readonly
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="8"
+          cdkAutosizeMaxRows="60"
+          class="monospace-textarea"
+        >
+        </textarea>
+      </mat-form-field>
+    }
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'dayPage.theory.time' | translate }}</mat-label>
+      <input
+        matInput
+        [ngModel]="theoryData().timeSpent"
+        (ngModelChange)="onFieldChange({ timeSpent: $event })"
+        [placeholder]="'dayPage.theory.timePlaceholder' | translate"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'dayPage.theory.learned' | translate }}</mat-label>
+      <textarea
+        matInput
+        [ngModel]="theoryData().whatLearned"
+        (ngModelChange)="onFieldChange({ whatLearned: $event })"
+        rows="3"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'dayPage.theory.unclear' | translate }}</mat-label>
+      <textarea
+        matInput
+        [ngModel]="theoryData().whatIsUnclear"
+        (ngModelChange)="onFieldChange({ whatIsUnclear: $event })"
+        rows="3"
+      ></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>{{ 'dayPage.theory.terms' | translate }}</mat-label>
+      <textarea
+        matInput
+        [ngModel]="theoryData().newTerms"
+        (ngModelChange)="onFieldChange({ newTerms: $event })"
+        rows="2"
+      ></textarea>
+    </mat-form-field>
+  </div>
+</mat-tab>

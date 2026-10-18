@@ -13,6 +13,7 @@ export interface TranslationKeys {
     dayNotSelected: string;
     uploadInstructions: string;
     jsonLabel: string;
+    jsonValidationError: string;
     jsonPlaceholder: string;
     btnLoad: string;
     btnCreateTask: string;
@@ -51,5 +52,8 @@ export interface TranslationKeys {
       architectureAnswer: string;
       ratingLabel: string;
     };
+  };
+  errors: {
+    invalidJSON: string;
   };
 }

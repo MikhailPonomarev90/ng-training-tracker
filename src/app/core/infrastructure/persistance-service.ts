@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
-import { EntityType } from '../domain/models/entity-type.model';
-import { LoggerService } from '../domain/services/logger-service';
+import { inject, Injectable } from '@angular/core';
+import { EntityType } from '../domain/models/logger/entity-type.model';
+import { LoggerService } from '../domain/services/logger/logger-service';
 import { StorageAction } from './models/storageAction';
 
 @Injectable({

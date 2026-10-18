@@ -1,5 +1,12 @@
 {
   "welcome": "Welcome!",
+  "navigation": {
+    "day": "Day",
+    "calendar": "Calendar",
+    "statistics": "Statistics",
+    "learningPlan": "Learning Plan",
+    "settings": "Settings"
+  },
   "tasks": {
     "title": "Task List",
     "placeholder": "Add a task..."
@@ -11,6 +18,7 @@
     "dayNotSelected": "Day not selected",
     "uploadInstructions": "You can initialize the day structure by pasting its configuration JSON below:",
     "jsonLabel": "Day Data (JSON)",
+    "jsonValidationError": "JSON structure validation errors",
     "jsonPlaceholder": "{ \"id\": \"day-9\", \"active\": true, ... }",
     "btnLoad": "Load Day",
     "btnCreateTask": "Add Task",
@@ -49,5 +57,8 @@
       "architectureAnswer": "Explanation of your architectural approach",
       "ratingLabel": "Self-assessment rating (productivity)"
     }
+  },
+  "errors": {
+    "invalidJSON": "Некорректный JSON. Проверьте синтаксис"
   }
 }

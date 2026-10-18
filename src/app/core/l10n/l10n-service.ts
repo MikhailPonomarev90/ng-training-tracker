@@ -1,4 +1,3 @@
-// src/app/l10n/l10n.service.ts
 import { HttpClient } from '@angular/common/http';
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { SupportedLang, TranslationKeys } from './translation.model';
@@ -35,6 +34,17 @@ export class L10nService {
         },
       });
     });
+  }
+
+  translate(selector: (keys: TranslationKeys) => string): string {
+    const data = this.translationData();
+    if (!data) return '';
+
+    try {
+      return selector(data);
+    } catch {
+      return '';
+    }
   }
 
   setLanguage(lang: SupportedLang): void {

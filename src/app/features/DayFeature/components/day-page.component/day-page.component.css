@@ -240,3 +240,43 @@
   line-height: 1.5;
   letter-spacing: 0.5px;
 }
+.json-upload-field {
+  width: 100%;
+  margin-bottom: 8px;
+
+  textarea {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    resize: vertical;
+  }
+}
+
+/* Стили для поля вывода ошибок */
+.json-error-field {
+  width: 100%;
+  margin-top: 8px;
+
+  /* Подсвечиваем бордер и лейбл мягким красным цветом (Material Error State) */
+  ::v-deep .mat-mdc-text-field-wrapper {
+    background-color: #ffeeed !important; /* Мягкий красный фон */
+  }
+
+  ::v-deep .mdc-notched-outline__leading,
+  ::v-deep .mdc-notched-outline__notch,
+  ::v-deep .mdc-notched-outline__trailing {
+    border-color: #f44336 !important; /* Красная рамка */
+  }
+
+  ::v-deep .mat-mdc-form-field-label {
+    color: #c62828 !important; /* Темно-красный цвет заголовка */
+  }
+
+  textarea {
+    color: #b71c1c; /* Темно-красный цвет текста ошибок */
+    font-family: monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    resize: vertical;
+    white-space: pre-line; /* Сохраняет переносы строк \n между ошибками */
+  }
+}

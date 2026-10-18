@@ -1,0 +1,16 @@
+<mat-card-header class="card-header">
+  <div class="header-status-wrapper">
+    <mat-card-title class="card-title">
+      {{ 'dayPage.dayTitle' | translate }} {{ metadata().date.dayNum }}
+    </mat-card-title>
+    @if (metadata().done) {
+      <span class="status-badge done">
+        <mat-icon>check_circle</mat-icon> {{ 'dayPage.statusDone' | translate }}
+      </span>
+    } @else {
+      <span class="status-badge progress">
+        <mat-icon>pending</mat-icon> {{ 'dayPage.statusProgress' | translate }}
+      </span>
+    }
+  </div>
+</mat-card-header>
