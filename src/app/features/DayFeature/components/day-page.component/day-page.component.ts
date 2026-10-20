@@ -133,4 +133,10 @@ export class DayPageComponent {
       .writeText(reportJsonString)
       .catch((err) => console.error('Clipboard error: ', err));
   }
+
+  copyErrorToClipboard(): void {
+    navigator.clipboard
+      .writeText(this.errorMessage())
+      .catch((err) => console.error('Clipboard error: ', err));
+  }
 }

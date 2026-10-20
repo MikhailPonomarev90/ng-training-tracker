@@ -1,9 +1,9 @@
 import { isPlatformBrowser } from '@angular/common';
 import { computed, effect, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { DayData } from '../../domain/models/day/day-data';
-import { Task } from '../../domain/models/day/task.model';
 import { TaskActions } from '../../domain/models/day/task/task-actions';
 import { TaskStatistics } from '../../domain/models/day/task/task-statistics';
+import { Task } from '../../domain/models/day/task/task.model';
 import { ActionType } from '../../domain/models/logger/action-type.model';
 import { EntityType } from '../../domain/models/logger/entity-type.model';
 import { LoggerService } from '../../domain/services/logger/logger-service';
@@ -89,7 +89,7 @@ export class DayStore {
     const currentId = this.selectedDayId();
     if (!currentId) return;
 
-    const newTask: Task = { id: Date.now(), title, completed: false };
+    const newTask: Task = { id: Date.now(), title, completed: false, addedByUser: true };
 
     // Используем спец. метод для создания плейсхолдера, если дня нет
     this.daysMapSignal.update((map) => {

@@ -1,0 +1,67 @@
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+}
+
+.progress-label {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.progress-values {
+  font-size: 18px;
+}
+
+.task-progress-bar {
+  height: 8px;
+  border-radius: 4px;
+}
+
+.task-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 4px 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding-bottom: 8px;
+}
+
+.task-checkbox {
+  width: 100%;
+}
+
+.task-text {
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.task-text.completed {
+  text-decoration: line-through;
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.empty-state {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.38);
+  padding: 24px;
+}
+
+.add-task-inline-btn {
+  margin-top: 8px;
+  align-self: flex-start;
+}

@@ -1,6 +1,7 @@
 import { Component, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -15,6 +16,7 @@ import { TranslatePipe } from '../../../../core/l10n/translate.pipe';
     MatTabsModule,
     MatRadioModule,
     MatSelectModule,
+    MatInputModule,
     FormsModule,
     TranslatePipe,
   ],

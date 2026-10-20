@@ -1,28 +1,26 @@
-<mat-tab [label]="'dayPage.tabs.general' | translate">
-  <div class="tab-padding-content">
-    @if (briefingData().briefing) {
-      <mat-form-field appearance="outline" class="full-width briefing-field">
-        <mat-label>{{ 'dayPage.general.briefing' | translate }}</mat-label>
-        <textarea
-          matInput
-          [value]="briefingData().briefing"
-          readonly
-          cdkTextareaAutosize
-          cdkAutosizeMinRows="5"
-          cdkAutosizeMaxRows="30"
-        >
-        </textarea>
-      </mat-form-field>
-    }
-
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>{{ 'dayPage.general.notes' | translate }}</mat-label>
+<div class="tab-padding-content">
+  @if (briefingData().briefing) {
+    <mat-form-field appearance="outline" class="full-width briefing-field">
+      <mat-label>{{ 'dayPage.general.briefing' | translate }}</mat-label>
       <textarea
         matInput
-        [ngModel]="briefingData().notes"
-        (ngModelChange)="onFieldChange({ notes: $event })"
-        rows="5"
-      ></textarea>
+        [value]="briefingData().briefing"
+        readonly
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="5"
+        cdkAutosizeMaxRows="30"
+      >
+      </textarea>
     </mat-form-field>
-  </div>
-</mat-tab>
+  }
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>{{ 'dayPage.general.notes' | translate }}</mat-label>
+    <textarea
+      matInput
+      [ngModel]="briefingData().notes"
+      (ngModelChange)="onFieldChange({ notes: $event })"
+      rows="5"
+    ></textarea>
+  </mat-form-field>
+</div>

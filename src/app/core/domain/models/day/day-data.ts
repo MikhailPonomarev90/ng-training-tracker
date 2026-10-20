@@ -1,5 +1,5 @@
 import { DayQuestion } from './question.model';
-import { Task } from './task.model';
+import { Task } from './task/task.model';
 
 type DayStatus = 'planned' | 'active' | 'done' | 'archived';
 

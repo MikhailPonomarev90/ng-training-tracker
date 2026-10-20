@@ -1,0 +1,26 @@
+.header-status-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.status-badge.done {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-badge.progress {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}

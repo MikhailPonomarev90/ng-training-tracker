@@ -1,54 +1,52 @@
-<mat-tab [label]="'dayPage.tabs.practice' | translate">
-  <div class="tab-padding-content">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>{{ 'dayPage.practice.time' | translate }}</mat-label>
-      <input
-        matInput
-        [ngModel]="practiceData().timeSpent"
-        (ngModelChange)="onFieldChange({ timeSpent: $event })"
-      />
-    </mat-form-field>
+<div class="tab-padding-content">
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>{{ 'dayPage.practice.time' | translate }}</mat-label>
+    <input
+      matInput
+      [ngModel]="practiceData().timeSpent"
+      (ngModelChange)="onFieldChange({ timeSpent: $event })"
+    />
+  </mat-form-field>
 
-    <div class="progress-container">
-      <div class="progress-info">
-        <span class="progress-label">{{ 'dayPage.practice.progress' | translate }}</span>
-        <strong class="progress-values"
-          >{{ taskStatistics().completed }} / {{ taskStatistics().total }}</strong
-        >
-      </div>
-      <mat-progress-bar
-        mode="determinate"
-        [value]="taskStatistics().progress"
-        color="primary"
-        class="task-progress-bar"
-      ></mat-progress-bar>
+  <div class="progress-container">
+    <div class="progress-info">
+      <span class="progress-label">{{ 'dayPage.practice.progress' | translate }}</span>
+      <strong class="progress-values"
+        >{{ taskStatistics().completed }} / {{ taskStatistics().total }}</strong
+      >
     </div>
-
-    <app-task-filter-component [(filter)]="currentFilter" />
-
-    <div class="task-list">
-      @for (task of filteredTasks(); track task.id) {
-        <div class="task-item">
-          <mat-checkbox
-            [checked]="task.completed"
-            class="task-checkbox"
-            (change)="taskActions().toggle(task.id)"
-          >
-            <span class="task-text" [class.completed]="task.completed">{{ task.title }}</span>
-          </mat-checkbox>
-        </div>
-      } @empty {
-        <div class="empty-state">{{ 'dayPage.practice.emptyTasks' | translate }}</div>
-      }
-    </div>
-
-    <button
-      mat-stroked-button
+    <mat-progress-bar
+      mode="determinate"
+      [value]="taskStatistics().progress"
       color="primary"
-      class="add-task-inline-btn"
-      (click)="openAddTaskDialog()"
-    >
-      <mat-icon>add</mat-icon> {{ 'dayPage.btnCreateTask' | translate }}
-    </button>
+      class="task-progress-bar"
+    ></mat-progress-bar>
   </div>
-</mat-tab>
+
+  <app-task-filter-component [(filter)]="currentFilter" />
+
+  <div class="task-list">
+    @for (task of filteredTasks(); track task.id) {
+      <div class="task-item">
+        <mat-checkbox
+          [checked]="task.completed"
+          class="task-checkbox"
+          (change)="taskActions().toggle(task.id)"
+        >
+          <span class="task-text" [class.completed]="task.completed">{{ task.title }}</span>
+        </mat-checkbox>
+      </div>
+    } @empty {
+      <div class="empty-state">{{ 'dayPage.practice.emptyTasks' | translate }}</div>
+    }
+  </div>
+
+  <button
+    mat-stroked-button
+    color="primary"
+    class="add-task-inline-btn"
+    (click)="openAddTaskDialog()"
+  >
+    <mat-icon>add</mat-icon> {{ 'dayPage.btnCreateTask' | translate }}
+  </button>
+</div>

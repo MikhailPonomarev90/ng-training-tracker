@@ -1,4 +1,3 @@
-/* Базовый контейнер на весь экран */
 .fullscreen-card {
   width: 100vw;
   height: 100vh;
@@ -10,15 +9,6 @@
   justify-content: space-between;
 }
 
-.card-header {
-  margin-bottom: 24px;
-}
-
-.card-title {
-  font-size: 28px;
-  font-weight: bold;
-}
-
 .card-content {
   flex: 1;
   display: flex;
@@ -27,84 +17,6 @@
   padding: 0;
 }
 
-/* Прогресс бар */
-.progress-container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.progress-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 16px;
-}
-
-.progress-label {
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.progress-values {
-  font-size: 18px;
-}
-
-.task-progress-bar {
-  height: 8px;
-  border-radius: 4px;
-}
-
-/* Фильтры */
-.filter-group {
-  width: 100%;
-  justify-content: stretch;
-}
-
-.filter-toggle {
-  flex: 1;
-  text-align: center;
-}
-
-/* Список задач */
-.task-list {
-  flex: 1;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 4px 0;
-}
-
-.task-item {
-  display: flex;
-  align-items: center;
-  min-height: 48px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  padding-bottom: 8px;
-}
-
-.task-checkbox {
-  width: 100%;
-}
-
-.task-text {
-  font-size: 16px;
-  transition: all 0.2s ease;
-}
-
-/* Стили для выполненной задачи */
-.task-text.completed {
-  text-decoration: line-through;
-  color: rgba(0, 0, 0, 0.38);
-}
-
-.empty-state {
-  text-align: center;
-  color: rgba(0, 0, 0, 0.38);
-  padding: 24px;
-}
-
-/* Кнопки в футере */
 .card-actions {
   display: flex;
   gap: 16px;
@@ -123,64 +35,6 @@
   margin-right: 8px;
 }
 
-.full-width {
-  width: 100%;
-  margin-bottom: 12px;
-}
-.tab-padding-content {
-  padding: 20px 4px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-.header-status-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-.status-badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 4px 12px;
-  border-radius: 12px;
-}
-.status-badge.done {
-  background-color: #e8f5e9;
-  color: #2e7d32;
-}
-.status-badge.progress {
-  background-color: #fff3e0;
-  color: #ef6c00;
-}
-.add-task-inline-btn {
-  margin-top: 8px;
-  align-self: flex-start;
-}
-.question-card-item {
-  background: rgba(0, 0, 0, 0.02);
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-}
-.radio-row {
-  display: flex;
-  gap: 20px;
-}
-.radio-column {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.section-divider {
-  border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
-  margin: 24px 0;
-}
-
 .card-content-empty {
   display: flex;
   justify-content: center;
@@ -194,7 +48,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 600px; /* Ограничиваем ширину формы по центру */
+  max-width: 600px;
   text-align: center;
 }
 
@@ -218,28 +72,12 @@
   margin-bottom: 24px;
 }
 
-.json-upload-field {
-  width: 100%;
-  margin-bottom: 16px;
-}
-
-.json-upload-field textarea {
-  font-family: 'Courier New', Courier, monospace; /* Моноширинный шрифт для кода */
-  font-size: 13px;
-}
-
 .load-day-btn {
   height: 48px;
   padding: 0 32px;
   font-size: 16px;
 }
 
-.theory-data-field textarea.monospace-textarea {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  letter-spacing: 0.5px;
-}
 .json-upload-field {
   width: 100%;
   margin-bottom: 8px;
@@ -251,32 +89,37 @@
   }
 }
 
-/* Стили для поля вывода ошибок */
 .json-error-field {
   width: 100%;
   margin-top: 8px;
+}
 
-  /* Подсвечиваем бордер и лейбл мягким красным цветом (Material Error State) */
-  ::v-deep .mat-mdc-text-field-wrapper {
-    background-color: #ffeeed !important; /* Мягкий красный фон */
-  }
+.json-error-field textarea {
+  color: #b71c1c;
+  font-family: monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+  white-space: pre-line;
+}
 
-  ::v-deep .mdc-notched-outline__leading,
-  ::v-deep .mdc-notched-outline__notch,
-  ::v-deep .mdc-notched-outline__trailing {
-    border-color: #f44336 !important; /* Красная рамка */
-  }
+.json-error-field .error-textarea-container {
+  position: relative;
+  width: 100%;
+}
 
-  ::v-deep .mat-mdc-form-field-label {
-    color: #c62828 !important; /* Темно-красный цвет заголовка */
-  }
+.json-error-field .copy-error-btn {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  width: 32px !important;
+  height: 32px !important;
+  line-height: 32px !important;
+}
 
-  textarea {
-    color: #b71c1c; /* Темно-красный цвет текста ошибок */
-    font-family: monospace;
-    font-size: 13px;
-    line-height: 1.5;
-    resize: vertical;
-    white-space: pre-line; /* Сохраняет переносы строк \n между ошибками */
-  }
+.json-error-field .copy-error-btn .mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
 }

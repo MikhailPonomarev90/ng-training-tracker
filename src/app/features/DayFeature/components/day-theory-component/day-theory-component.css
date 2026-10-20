@@ -1,0 +1,11 @@
+.theory-data-field textarea.monospace-textarea {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+}
+
+.add-task-inline-btn {
+  margin-top: 8px;
+  align-self: flex-start;
+}

@@ -1,0 +1,29 @@
+.question-card-item {
+  background: rgba(0, 0, 0, 0.02);
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.radio-row {
+  display: flex;
+  gap: 20px;
+}
+
+.radio-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section-divider {
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  margin: 24px 0;
+}
+
+.empty-state {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.38);
+  padding: 24px;
+}

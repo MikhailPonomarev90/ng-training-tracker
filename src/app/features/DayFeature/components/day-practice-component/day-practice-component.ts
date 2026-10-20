@@ -1,9 +1,11 @@
 import { Component, computed, inject, input, model, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DayPracticeData } from '../../../../core/domain/models/day/day-data';
@@ -22,9 +24,10 @@ import { TaskFilterComponent } from '../task-filter.component/task-filter.compon
     MatIconModule,
     MatProgressBarModule,
     MatCheckboxModule,
+    MatInputModule,
+    MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
-
     TranslatePipe,
     TaskFilterComponent,
   ],
